@@ -20,9 +20,23 @@ module Enumerable
 	 def my_select
 			select_in = Array.new
 			self.my_each do 
-				|counter| select_in << counter if yield(counter) 
+				|counter| select_in << yield(counter) 
 			end
 			select_in
+	end
+	def my_all?
+		self.my_each do |element|
+			if block_given?
+				val = yield (element)
+			elsif element.nil? or !element or !val
+				false
+			else
+				true
+			end
+		end
+	end
+	def my_any?
+
 	end
 	
 
@@ -38,7 +52,8 @@ array.my_each_with_index do
 end
 
 array.my_select do |x| 
-	if x > 2
+	if x % 2 == 0
 		p x
 	end
-end
+end 
+array.my_all? do |num| num > 6 end
