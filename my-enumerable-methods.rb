@@ -1,11 +1,12 @@
 module Enumerable
 	def my_each
 		if block_given?
-			for i in self
-				yield(i)
+			for counter in self
+				yield(counter)
 			end
 		else
-			return to_enum(:my_each)
+			to_enum(:my_each)
 		end
-	end	
+	end
 end
+[5,4,3].my_each do |x| p x end
