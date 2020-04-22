@@ -17,6 +17,15 @@ module Enumerable
 		   to_enum(:my_each_with_index)
 		end
 	 end
+	 def my_select
+			select_in = Array.new
+			self.my_each do 
+				|counter| select_in << counter if yield(counter) 
+			end
+			select_in
+	end
+	
+
 end
 array = [5,4,3,2]
 puts "my_each"
@@ -26,4 +35,10 @@ puts "my_each_with_index"
 array.my_each_with_index do 
 	|elem,index| 
 	p "#{elem} => #{index}"
+end
+
+array.my_select do |x| 
+	if x > 2
+		p x
+	end
 end
