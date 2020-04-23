@@ -25,20 +25,15 @@ module Enumerable
 			select_in
 	end
 	def my_all?
-		self.my_each do |element|
+		my_each do |element|
 			if block_given?
-				val = yield (element)
-			elsif element.nil? or !element or !val
+				yield(element)
+			elsif element.nil? or !i or !yield(element)
 				false
-			else
-				true
 			end
 		end
+		true
 	end
-	def my_any?
-
-	end
-	
 
 end
 array = [5,4,3,2]
