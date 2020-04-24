@@ -25,7 +25,8 @@ module Enumerable
 			select_in
 	end
 	def my_all?
-		my_each do |element|
+		my_each do 
+			|element|
 			if block_given?
 				yield(element)
 			elsif element.nil? or !i or !yield(element)
@@ -34,6 +35,18 @@ module Enumerable
 		end
 		true
 	end
+	def my_any?
+		my_each do 
+			|element|
+			if block_given?
+				yield(element)
+			elsif element.nil? or element or yield(element)
+				true
+			end
+		end
+		false
+	end
+
 
 end
 array = [5,4,3,2]
@@ -52,3 +65,4 @@ array.my_select do |x|
 	end
 end 
 array.my_all? do |num| num > 6 end
+array.my_any? do |num| num > 6 end
