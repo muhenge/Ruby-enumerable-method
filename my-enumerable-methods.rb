@@ -39,14 +39,29 @@ module Enumerable
 		my_each do 
 			|element|
 			if block_given?
-				yield(element)
+				yield element
 			elsif element.nil? or element or yield(element)
 				true
 			end
 		end
 		false
 	end
+	def my_none?
+		if block_given?
+		   p "true"
+		end
+		my_each do 
+			|element| 
+			if yield element
+				p "false"
+			end
+		end
 
+	end
+
+	def my_account
+		
+	end
 
 end
 array = [5,4,3,2]
@@ -66,3 +81,4 @@ array.my_select do |x|
 end 
 array.my_all? do |num| num > 6 end
 array.my_any? do |num| num > 6 end
+array.my_none? do end
