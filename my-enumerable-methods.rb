@@ -56,13 +56,14 @@ module Enumerable
     end
   end
 
-  def my_count(el = nil, &proc)
+  def my_count(_element = nil, &proc)
     counter = 0
     my_each do |element|
       if block_given?
         counter += 1 if proc.call(element)
       elsif !el.nil?
-        counter += 1 if element == argelse
+        counter += 1 if element == arg
+      else
         count = length
       end
     end
@@ -71,65 +72,67 @@ module Enumerable
 
   def my_map(proc = nil)
     if block_given?
-      map = Array.new
-      my_each do |element| mapped << proc.call(element) end
+      map = []
+      my_each { |element| mapped << proc.call(element) }
     elsif proc.nil?
-      my_each do |element| mapped << yield(element) end
+      my_each { |element| mapped << yield(element) }
     else
       enum_for(:map)
     end
     map
   end
 
-  def my_inject(el)
-    if !block_given?
-      return nil
-    elsif !el.nil?
+  def my_inject(el = nil)
+    return nil unless block_given?
+
+    if !el.nil?
       res = el
-      c = 0
     else
-      res = self[0] 
-      c = 1
+      res = self[0]
     end
-    [c..-1].my_each { |i| res = yield(res,index) }
+    self[0..-1].my_each { |i| res = yield(res, i) }
     res
+  end
+
+  def multiply_els(arr)
+    arr.my_inject { |x, y| x * y }
   end
 end
 
 array = [5, 4, 3, 2]
-puts "my_each"
+puts 'my_each'
 array.my_each { |x| p x }
 print "\n"
-puts "my_each_with_index"
+puts 'my_each_with_index'
 array.my_each_with_index do |elem, index|
   p "#{elem} => #{index}"
 end
-puts "--------------"
-puts "my_select"
+puts '--------------'
+puts 'my_select'
 
 array.my_select do |x|
   p x if x.even?
 end
-puts "--------------"
-puts "my_all"
+puts '--------------'
+puts 'my_all'
 
 array.my_all? { |num| num > 6 }
-puts "--------------"
-puts "my_any"
+puts '--------------'
+puts 'my_any'
 
 array.my_any? { |num| num > 6 }
-puts "--------------"
-puts "none"
+puts '--------------'
+puts 'none'
 
-array.my_none? { }
-puts "--------------"
-puts "my_count"
+array.my_none? {}
+puts '--------------'
+puts 'my_count'
 
-puts array.my_count
-puts "--------------"
-puts "my_map"
+puts array.my_count { |x| x < 10 }
+puts '--------------'
+puts 'my_map'
 
 puts array.map { |num| num * 2 }
-puts "--------------"
-puts "my_inject"
-puts array.my_inject(0) { |num1,num2| num1+num2}
+puts '--------------'
+puts 'my_inject'
+puts array.my_inject(3) { |num1, num2| num1 + num2 }
