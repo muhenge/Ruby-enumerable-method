@@ -1,13 +1,19 @@
-# my Enumerable methods
+# My Enumerable methods
 
 > In this project I tried to create a module with methods that are identical to the Enumerable.
+
+
 
 This project is from [microverse](https://www.microverse.org/) main curriculum,is about to create personal methods that belong to Enumerable module in Ruby programming language. 
 
 
 ## Built With
 
-- Ruby
+- [Ruby](https://www.ruby-lang.org/en/)
+## Tools
+
+- [Rubocop](https://docs.rubocop.org/en/stable/)
+- [stickler](https://stickler-ci.com/)
 
 ## Authors
 
