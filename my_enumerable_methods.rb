@@ -64,7 +64,7 @@ module Enumerable
       elsif !el.nil?
         counter += 1 if element == arg
       else
-        count = length
+        count == length
       end
     end
     counter
@@ -82,14 +82,14 @@ module Enumerable
     map
   end
 
-  def my_inject(el = nil)
+  def my_inject(elmt = nil)
     return nil unless block_given?
 
-    if !el.nil?
-      res = el
-    else
-      res = self[0]
-    end
+    res = if !elmt.nil?
+            elmt
+          else
+            self[0]
+          end
     self[0..-1].my_each { |i| res = yield(res, i) }
     res
   end
@@ -128,11 +128,11 @@ array.my_none? {}
 puts '--------------'
 puts 'my_count'
 
-puts array.my_count { |x| x < 10 }
+puts array.my_count(&:even?)
 puts '--------------'
 puts 'my_map'
 
-puts array.map { |num| num * 2 }
+puts array.map(&:to_i)
 puts '--------------'
 puts 'my_inject'
 puts array.my_inject(3) { |num1, num2| num1 + num2 }
