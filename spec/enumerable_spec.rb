@@ -13,16 +13,17 @@ describe Enumerable do
        end
      end
    end
- end
 
-  # describe '#my_each_with_index' do
-  #   context 'when a method have block' do
-  #     it 'all the values has an index' do
-  #       hash = {}
-  #       [1, 2, 3, 4].my_each_with_index { |val, index| hash[val] = index }
-  #       expect(hash).to eql({ 1 => 0, 2 => 1, 3 => 2, 4 => 3 })
-  #     end
-  #   end
+   describe '#my_each_with_index' do
+     context 'when a method have block' do
+       it 'all the values has an index' do
+         hash = {}
+         [1, 2, 3, 4].my_each_with_index { |val, index| hash[val] = index }
+         expect(hash).to eql({ 1 => 0, 2 => 1, 3 => 2, 4 => 3 })
+       end
+     end
+    end
+  end
 
   #   context 'a method has no block or no arguments' do
   #     it 'return an enumerator if there is no block' do
