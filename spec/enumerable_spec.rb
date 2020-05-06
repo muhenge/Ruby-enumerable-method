@@ -13,7 +13,7 @@ describe Enumerable do
        end
      end
    end
-  end
+ end
 
   # describe '#my_each_with_index' do
   #   context 'when a method have block' do
