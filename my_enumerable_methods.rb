@@ -25,10 +25,10 @@ module Enumerable
 
   def my_select
     if block_given?
-      select_in = Array.new
-      my_each { |counter|
+      select_in = []
+      my_each do |counter|
         select_in << counter if yield(counter)
-      }
+      end
       select_in
     else
       to_enum(:select)
@@ -36,98 +36,72 @@ module Enumerable
   end
 
   def my_all?(args = nil)
-    bool = true
+    element = true
     if args.nil?
-      block_given? ? my_each { |x| bool = false unless yield x } : bool = my_all? { |x| !x.nil? or (x != false) }
+      block_given? ? my_each { |x| element = false unless yield x } : element = my_all? { |x| !x.nil? && (x != false) }
     else
-      my_each { |x| bool = false unless args == x }
+      my_each { |x| element = false unless args === x }
     end
-    bool
+    element
   end
 
-
-  def my_none?
-    puts true if block_given?
-    my_each do |element|
-      puts false if yield element
+  def my_any?(args = nil)
+    element = false
+    if args.nil?
+    else
+      my_each { |x| element = true if args === x }
     end
+    element
   end
 
-  def my_count(_element = nil, &proc)
-    counter = 0
-    my_each do |element|
-      if block_given?
-        counter += 1 if proc.call(element)
-      elsif !el.nil?
-        counter += 1 if element == arg
-      else
-        count == length
-      end
+  def my_none?(args = nil)
+    element = true
+    if args.nil?
+      block_given? ? my_each { |x| element = false if yield x } : my_any? { |x| return false if x == true }
+    else
+      my_each { |x| element = false if args === x }
     end
-    counter
+    element
   end
 
-  def my_map(proc = nil)
+  def my_count(item = nil)
+    count = 0
+    if item.nil?
+      block_given? ? my_each { |x| count += 1 if yield x } : my_each { count += 1 }
+    else
+      my_each { |x| count += 1 if item == x }
+    end
+    count
+  end
+
+  def my_map
+    return to_enum unless block_given?
+
+    arr = []
+    my_each { |x| arr << yield(x) }
+    arr
+  end
+
+  def my_inject(element1 = nil, element2 = nil)
+    first_element = true
+    case element1
+    when nil then element = to_a[0]
+    when Numeric, Symbol
+      element = element1
+      first_element = false
+    end
     if block_given?
-      map = []
-      my_each { |element| mapped << proc.call(element) }
-    elsif proc.nil?
-      my_each { |element| mapped << yield(element) }
+      my_each { |x| first_element == true ? first_element = false : element = yield(element, x) }
     else
-      enum_for(:map)
-    end
-    map
-  end
-
-  def my_inject(elmt = nil)
-    return nil unless block_given?
-
-    res = if !elmt.nil?
-        elmt
-      else
-        self[0]
+      element1, element2 = element2, element1 if element1.is_a? Symbol
+      element = my_inject(element1) do |total, x|
+        instance_eelement "#{total} #{element2} #{x}", __FILE__, __LINE__
       end
-    self[0..-1].my_each { |i| res = yield(res, i) }
-    res
-  end
-
-  def multiply_els(arr)
-    arr.my_inject { |x, y| x * y }
+    end
+    element
   end
 end
 
-array = [5, 4, 3, 2]
-array.my_each { |x| p x }
-
-array.my_each_with_index do |elem, index|
-  p "#{elem} => #{index}"
+def multiply_els(arr)
+  arr.inject { |product, n| product * n }
 end
-puts "--------------"
-puts "my_select"
-
-array.my_select do |x|
-  p x if x.even?
-end
-puts "--------------"
-puts "my_all"
-
-array.my_all? { |num| num > 6 }
-# puts '--------------'
-# puts 'my_any'
-
-# array.my_any? { |num| num > 6 }
-# puts '--------------'
-# puts 'none'
-
-# array.my_none? {}
-# puts '--------------'
-# puts 'my_count'
-
-# puts array.my_count(&:even?)
-# puts '--------------'
-# puts 'my_map'
-
-# puts array.map(&:to_i)
-# puts '--------------'
-# puts 'my_inject'
-# puts array.my_inject(3) { |num1, num2| num1 + num2 }
