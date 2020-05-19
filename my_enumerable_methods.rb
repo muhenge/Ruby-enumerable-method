@@ -40,7 +40,7 @@ module Enumerable
     if args.nil?
       block_given? ? my_each { |x| element = false unless yield x } : element = my_all? { |x| !x.nil? && (x != false) }
     else
-      my_each { |x| element = false unless args === x }
+      my_each { |x| element = false unless args == x }
     end
     element
   end
@@ -50,7 +50,7 @@ module Enumerable
     if args.nil?
       block_given? ? my_each { |x| val = true if yield x } : val = my_any? { |x| !x.nil? && (x != false) }
     else
-      my_each { |x| val = true if args === x }
+      my_each { |x| val = true if args == x }
     end
     val
   end
@@ -60,7 +60,7 @@ module Enumerable
     if args.nil?
       block_given? ? my_each { |x| val = false if yield x } : my_any? { |x| return false if x == true }
     else
-      my_each { |x| val = false if args === x }
+      my_each { |x| val = false if args == x }
     end
     val
   end

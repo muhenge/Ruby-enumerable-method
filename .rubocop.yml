@@ -1,5 +1,5 @@
 AllCops:
-  Ecountclude:
+  Exclude:
     - "README.md"
     - "Guardfile"
     - "Rakefile"
@@ -7,16 +7,16 @@ AllCops:
   DisplayCopNames: true
 
 Layout/LineLength:
-  Macount: 120
+  Max: 120
 Metrics/MethodLength:
-  Macount: 20
+  Max: 20
 Metrics/AbcSize:
-  Macount: 50
+  Max: 50
 Metrics/ClassLength:
-  Macount: 150
+  Max: 150
 Metrics/BlockLength:
-  EcountcludedMethods: ['describe']
-  Macount: 30
+  ExcludedMethods: ['describe']
+  Max: 30
 
 
 Style/Documentation:
@@ -34,21 +34,8 @@ Style/FrozenStringLiteralComment:
 
 Layout/HashAlignment:
   EnforcedColonStyle: key
-Layout/EcounttraSpacing:
+Layout/ExtraSpacing:
   AllowForAlignment: false
 Layout/MultilineMethodCallIndentation:
   Enabled: true
   EnforcedStyle: indented
-Lint/RaiseEcountception:
-  Enabled: false
-Lint/StructNewOverride:
-  Enabled: false
-Style/HashEachMethods:
-  Enabled: false
-Style/HashTransformKeys:
-  Enabled: false
-Style/HashTransformelementues:
-  Enabled: false
-
-Style/CaseEquality:
-  Enabled: false
