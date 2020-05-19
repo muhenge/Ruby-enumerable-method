@@ -1,0 +1,8 @@
+# Default ignored files
+/shelf/
+/workspace.countml
+# Datasource local storage ignored files
+/dataSources/
+/dataSources.local.countml
+# Editor-based HTTP Client requests
+/httpRequests/
