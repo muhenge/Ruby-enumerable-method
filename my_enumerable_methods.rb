@@ -46,22 +46,23 @@ module Enumerable
   end
 
   def my_any?(args = nil)
-    element = false
+    val = false
     if args.nil?
+      block_given? ? my_each { |x| val = true if yield x } : val = my_any? { |x| !x.nil? && (x != false) }
     else
-      my_each { |x| element = true if args === x }
+      my_each { |x| val = true if args === x }
     end
-    element
+    val
   end
 
   def my_none?(args = nil)
-    element = true
+    val = true
     if args.nil?
-      block_given? ? my_each { |x| element = false if yield x } : my_any? { |x| return false if x == true }
+      block_given? ? my_each { |x| val = false if yield x } : my_any? { |x| return false if x == true }
     else
-      my_each { |x| element = false if args === x }
+      my_each { |x| val = false if args === x }
     end
-    element
+    val
   end
 
   def my_count(item = nil)
@@ -82,23 +83,23 @@ module Enumerable
     arr
   end
 
-  def my_inject(element1 = nil, element2 = nil)
+  def my_inject(val1 = nil, val2 = nil)
     first_element = true
-    case element1
-    when nil then element = to_a[0]
+    case val1
+    when nil then val = to_a[0]
     when Numeric, Symbol
-      element = element1
+      val = val1
       first_element = false
     end
     if block_given?
-      my_each { |x| first_element == true ? first_element = false : element = yield(element, x) }
+      my_each { |x| first_element == true ? first_element = false : val = yield(val, x) }
     else
-      element1, element2 = element2, element1 if element1.is_a? Symbol
-      element = my_inject(element1) do |total, x|
-        instance_eelement "#{total} #{element2} #{x}", __FILE__, __LINE__
+      val1, val2 = val2, val1 if val1.is_a? Symbol
+      val = my_inject(val1) do |total, x|
+        instance_eval "#{total} #{val2} #{x}", __FILE__, __LINE__
       end
     end
-    element
+    val
   end
 end
 
